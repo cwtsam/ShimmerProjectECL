@@ -27,7 +27,7 @@ public class ApplicationShimmer extends BasicProcessWithCallBack {
 	/**** SHIMMER ****/
 	final static String kDeviceName = "Shimmer-9595";
 	String kDevicePort = "COM6";
-	final static double kSamplingRate = 128;
+	final static double kSamplingRate = 256;
 	
 	ShimmerPC device;
 	static BasicShimmerBluetoothManagerPc btManager = new BasicShimmerBluetoothManagerPc();
@@ -177,9 +177,10 @@ public class ApplicationShimmer extends BasicProcessWithCallBack {
 		  {
 			  double[] acc = {Double.NaN, Double.NaN, Double.NaN};	//x,y,z
 			  double[] gyr = {Double.NaN, Double.NaN, Double.NaN};	//p,r,y
-			  double[] gsr = {Double.NaN, Double.NaN, Double.NaN, Double.NaN};	//resCAL,conCAL,resRAW,conRAW
+			  double[] gsr = {Double.NaN, Double.NaN};
+			  //double[] gsr = {Double.NaN, Double.NaN, Double.NaN, Double.NaN};	//resCAL,conCAL,resRAW,conRAW
 			  double ppg = 0;
-			  double ppgRaw = 0;
+			  //double ppgRaw = 0;
 			  double ppgBuf = 0;
 			  double hr = Double.NaN;
 			  double hrv = Double.NaN;
@@ -222,22 +223,22 @@ public class ApplicationShimmer extends BasicProcessWithCallBack {
 				  FormatCluster gCCFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(gsrConCalFmt, CHANNEL_TYPE.CAL.toString()));
 				  if (gCCFmt != null) gsr[1] = gCCFmt.mData;
 				  //GSR res RAW
-				  Collection<FormatCluster> gsrResFmt = oc.getCollectionOfFormatClusters(SensorGSR.ObjectClusterSensorName.GSR_RESISTANCE);
-				  FormatCluster gRRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(gsrResRawFmt, CHANNEL_TYPE.UNCAL.toString()));	//retrieve calibrated data
-				  if (gRRFmt != null) gsr[2] = gRRFmt.mData;
+				  //Collection<FormatCluster> gsrResRawFmt = oc.getCollectionOfFormatClusters(SensorGSR.ObjectClusterSensorName.GSR_RESISTANCE);
+				  //FormatCluster gRRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(gsrResRawFmt, CHANNEL_TYPE.UNCAL.toString()));	//retrieve calibrated data
+				  //if (gRRFmt != null) gsr[2] = gRRFmt.mData;
 				  //GSR con RAW
-				  Collection<FormatCluster> gsrConRawFmt = oc.getCollectionOfFormatClusters(SensorGSR.ObjectClusterSensorName.GSR_CONDUCTANCE);
-				  FormatCluster gCRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(gsrConRawFmt, CHANNEL_TYPE.UNCAL.toString()));
-				  if (gCRFmt != null) gsr[3] = gCRFmt.mData;
+				  //Collection<FormatCluster> gsrConRawFmt = oc.getCollectionOfFormatClusters(SensorGSR.ObjectClusterSensorName.GSR_CONDUCTANCE);
+				  //FormatCluster gCRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(gsrConRawFmt, CHANNEL_TYPE.UNCAL.toString()));
+				  //if (gCRFmt != null) gsr[1] = gCRFmt.mData;
 				  
 				  //PPG
 				  Collection<FormatCluster> ppgFmt = oc.getCollectionOfFormatClusters(SensorPPG.ObjectClusterSensorName.PPG_A13);
 				  FormatCluster pFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(ppgFmt, CHANNEL_TYPE.CAL.toString()));	//retrieve calibrated data
 				  if (pFmt != null) ppg = pFmt.mData;
 				  //PPG RAW
-				  Collection<FormatCluster> ppgRawFmt = oc.getCollectionOfFormatClusters(SensorPPG.ObjectClusterSensorName.PPG_A13);
-				  FormatCluster pRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(ppgRawFmt, CHANNEL_TYPE.UNCAL.toString()));	//retrieve calibrated data
-				  if (pRFmt != null) ppgRaw = pRFmt.mData;
+				  //Collection<FormatCluster> ppgRawFmt = oc.getCollectionOfFormatClusters(SensorPPG.ObjectClusterSensorName.PPG_A13);
+				  //FormatCluster pRFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(ppgRawFmt, CHANNEL_TYPE.UNCAL.toString()));	//retrieve calibrated data
+				  //if (pRFmt != null) ppgRaw = pRFmt.mData;
 				  //Timestamp
 				  Collection<FormatCluster> tsFmt = oc.getCollectionOfFormatClusters(Shimmer3.ObjectClusterSensorName.TIMESTAMP);
 				  FormatCluster tFmt = ((FormatCluster)ObjectCluster.returnFormatCluster(tsFmt, CHANNEL_TYPE.CAL.toString()));
@@ -254,7 +255,7 @@ public class ApplicationShimmer extends BasicProcessWithCallBack {
 				  hr = ppgToHrv.ppgToHrConversion(ppgBuf, sysTime);
 				  hrv = ppgToHrv.getRRInterval();
 				  
-				  float[] samples = new float[15];
+				  float[] samples = new float[12];
 				  samples[0] = (float)sysTime;
 				  samples[1] = (float)acc[0];
 				  samples[2] = (float)acc[1];
@@ -264,20 +265,19 @@ public class ApplicationShimmer extends BasicProcessWithCallBack {
 				  samples[6] = (float)gyr[2];
 				  samples[7] = (float)gsr[0];
 				  samples[8] = (float)gsr[1];
-				  samples[9] = (float)gsr[2];
-				  samples[10] = (float)gsr[3];
-				  samples[11] = (float)ppg;
-				  samples[12] = (float)ppgRaw;
-				  samples[13] = (float)hr;
-				  samples[14] = (float)hrv;
-				  
+				  //samples[9] = (float)gsr[2];
+				  //samples[10] = (float)gsr[3];
+				  samples[9] = (float)ppg;
+				  //samples[12] = (float)ppgRaw;
+				  samples[10] = (float)hr;
+				  samples[11] = (float)hrv;
 				  lslOutlet.push_sample(samples);
 				  
 				  counter++;
-				  if (counter == 128) {
+				  if (counter == 256) {
 					  System.out.println("TS: " + samples[0] + ", ACCX: " + samples[1] + ", ACCY: " + samples[2] + ", ACCZ: " + samples[3]);
 					  System.out.println("GYROX: " + samples[4] + ", GYROY: " + samples[5] + ", GYROZ: " + samples[6]);
-					  System.out.println("GSR-RES: " + samples[7] + ", GSR-CON: " + samples[8] + ", PPG: " + samples[11] + ", HR: " + samples[13] + ", HRV: " + samples[14]);
+					  System.out.println("GSR-RES: " + samples[7] + ", GSR-CON: " + samples[8] + ", PPG: " + samples[9] + ", HR: " + samples[10] + ", HRV: " + samples[11]);
 					  counter = 0;
 				  }
 				  
