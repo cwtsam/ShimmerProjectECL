@@ -29,8 +29,8 @@ follow the original license
 
 # how to use "ApplicationShimmer"
 1. Install Java Development Kit 1.8
-2. Clone this repo to local and open it with Eclipse Java IDE (import as Gradle Project).
-3. Select "ApplicationShimmer.java" under "ecl" directory and build it.
+2. Clone this repo to local and open it with Eclipse Java IDE (import as a Gradle Project).
+3. Under "ecl" directory, select "ApplicationShimmer.java" and build it. May need to clean build first.
 4. Pair your Shimmer GSR+ sensor to your PC by bluetooth connection.
 5. Check the port number (i.e. COM6) for your Shimmer sensor on your PC.
 6. Run the compiled "ApplicationShimmer.jar" in Eclipse IDE or by typing `java -jar ApplicationShimmer.jar` in powershell.
