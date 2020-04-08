@@ -36,6 +36,5 @@ follow the original license
 6. Run the compiled "ApplicationShimmer.jar" in Eclipse IDE or by typing `java -jar ApplicationShimmer.jar` in powershell.
 7. Type in the port number in the app and you'll see connection log and sensor data.
 
-## TDL
-- cleanup repo
-- adding some function (perhaps GUI?)
+## Changes to Original Repo
+- Sampling and streaming at 256 Hz instead of 128 Hz
