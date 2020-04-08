@@ -40,7 +40,7 @@ follow the original license
 
 ## Editing sampling rate
 For my project, I require sampling and streaming at 256 Hz instead of 128 Hz. ShimmerGSR allows you to modify the sampling rate streaming via bluetooth. I would then need to stream it at 256 Hz on LSL.
-1. In "ApplicationShimmer.java", find the line "final static double kSamplingRate = 128;" Update it to 256 or your preferred sampling rate.
+1. In "ApplicationShimmer.java", find the line "final static double kSamplingRate = 128;" Update the value "128" to 256 or your preferred sampling rate.
 2. Download "ConsensysBASIC" should be free https://www.shimmersensing.com/products/consensys
 3. In Consensys, go to manage devices, connect your Shimmer via the dock.
 4. Write firmware and configuration to 256 Hz.
