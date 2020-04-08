@@ -27,7 +27,7 @@ For Shimmer2R uses please refer to the legacy example
 # License
 follow the original license
 
-# how to use "ApplicationShimmer"
+# How to Use "ApplicationShimmer"
 1. Install Java Development Kit 1.8
 2. Clone this repo to local and open it with Eclipse Java IDE (import as a Gradle Project, right click on Package Explorer window and click "Import..." > Gradle > Existing Gradle Project).
 3. Resolve all issues and clean project before building. (Project > Clean...) 
